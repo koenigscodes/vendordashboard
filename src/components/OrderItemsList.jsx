@@ -20,7 +20,7 @@ const OrdersList = () => {
   
   const dispatch = useDispatch();
 
-  const [search, setSearch] = useState("");
+  const [searchOrder, setSearchOrder] = useState("");
 
   if (isLoading && !orders) {
     return <div className="flex justify-center items-center">
@@ -30,11 +30,17 @@ const OrdersList = () => {
   if (isError) return <p>Something went wrong, {error}</p>
 
   const filteredOrders = orders.filter(order => {
-    if (filter === "pending") return order.status === "pending"
-    if (filter === "delivered") return order.status === "delivered"
-    if (filter === "processing") return order.status === "processing"
-    if (filter === "cancelled") return order.status === "cancelled"
-    return true
+    const matchesStatus = 
+      filter === "all"
+        ? true
+        : order.status === filter
+    ;
+    const matchesSearch =
+      order.customerName
+        .toLowerCase()
+        .includes(searchOrder.toLowerCase())    
+    ;
+    return matchesStatus && matchesSearch
   })
 
   const formatDateTime = (dateString) => {
@@ -69,9 +75,18 @@ const OrdersList = () => {
   }
 
   return (
-    <section className="">
+    <section>
       <div className=" w-full px-3 shadow-lg">
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full"> 
+          <div>
+            <input
+              type="text"
+              placeholder="Search customer..."
+              value={searchOrder}
+              onChange={(e) => setSearchOrder(e.target.value)}
+              className="border p-2 w-full sm:w-md md:w-md h-8 m-2 rounded-full"
+            />
+          </div>
           <div className="flex justify-between text-sm">
             <h2 className="font-semibold">Recent Orders</h2>
             <button className="text-blue-800">View all</button>
