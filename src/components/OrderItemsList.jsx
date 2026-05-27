@@ -21,6 +21,7 @@ const OrdersList = () => {
   const dispatch = useDispatch();
 
   const [searchOrder, setSearchOrder] = useState("");
+  const [sortBy, setSortBy] = useState("newest");
 
   if (isLoading && !orders) {
     return <div className="flex justify-center items-center">
@@ -41,6 +42,23 @@ const OrdersList = () => {
         .includes(searchOrder.toLowerCase())    
     ;
     return matchesStatus && matchesSearch
+  })
+
+  const sortedOrders = [...filteredOrders].sort((a, b) => {
+    switch (sortBy) {
+      case 'newest':
+        return (
+          new Date(b.createdAt) - new Date(a.createdAt)
+        )
+
+      case 'oldest':
+        return (
+          new Date(a.createdAt) - new Date(b.createdAt)
+        )
+      
+      default:
+        return 0
+    }
   })
 
   const formatDateTime = (dateString) => {
@@ -78,7 +96,7 @@ const OrdersList = () => {
     <section>
       <div className=" w-full px-3 shadow-lg">
         <div className="flex flex-col w-full"> 
-          <div>
+          <div className="flex flex-wrap justify-between items-center">
             <input
               type="text"
               placeholder="Search customer..."
@@ -86,6 +104,20 @@ const OrdersList = () => {
               onChange={(e) => setSearchOrder(e.target.value)}
               className="border p-2 w-full sm:w-md md:w-md h-8 m-2 rounded-full"
             />
+            <div className="flex items-center text-sm">
+              <h3>Sortby</h3>
+              <select 
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="border h-8 p-1 m-2 text-xs rounded-full"
+              >
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="oldest">Highest Price</option>
+                <option value="oldest">Lowest Price</option>
+              </select>
+            </div>
+            
           </div>
           <div className="flex justify-between text-sm">
             <h2 className="font-semibold">Recent Orders</h2>
@@ -138,7 +170,7 @@ const OrdersList = () => {
         </div>
         
         {
-          filteredOrders.map(order => (
+          sortedOrders.map(order => (
             <div 
               key={order.id} 
               
@@ -185,7 +217,7 @@ const OrdersList = () => {
         {
           <div className="hidden md:block">
 
-            {filteredOrders.map(order => (
+            {sortedOrders.map(order => (
               <div 
                 key={order.id} 
                 className="
