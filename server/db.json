@@ -1,0 +1,160 @@
+{
+  "orders": [
+    {
+      "id": "1",
+      "customerName": "John Doe",
+      "items": [
+        {
+          "name": "Rice",
+          "price": 5000,
+          "quantity": 5
+        }
+      ],
+      "status": "delivered",
+      "createdAt": "2026-04-29T10:00:00Z"
+    },
+    {
+      "id": "2",
+      "customerName": "Sarah Doe",
+      "items": [
+        {
+          "name": "Beans",
+          "price": 3000,
+          "quantity": 4
+        }
+      ],
+      "status": "pending",
+      "createdAt": "2026-04-29T11:10:00Z"
+    },
+    {
+      "id": "3",
+      "customerName": "Zarah Doe",
+      "items": [
+        {
+          "name": "Garri",
+          "price": 1000,
+          "quantity": 5
+        },
+        {
+          "name": "Milk",
+          "price": 1500,
+          "quantity": 3
+        }
+      ],
+      "status": "processing",
+      "createdAt": "2026-04-29T12:25:00Z"
+    },
+    {
+      "id": "4",
+      "customerName": "Dave Doe",
+      "items": [
+        {
+          "name": "Fruits",
+          "price": 500,
+          "quantity": 10
+        }
+      ],
+      "status": "cancelled",
+      "createdAt": "2026-04-29T12:30:00Z"
+    },
+    {
+      "id": "5",
+      "customerName": "Grace Doe",
+      "items": [
+        {
+          "name": "Milk",
+          "price": 1500,
+          "quantity": 3
+        },
+        {
+          "name": "Water",
+          "price": 1000,
+          "quantity": 30
+        }
+      ],
+      "status": "delivered",
+      "createdAt": "2026-04-29T12:45:00Z"
+    },
+    {
+      "id": "6",
+      "customerName": "John Doe",
+      "items": [
+        {
+          "name": "Flour",
+          "price": 2000,
+          "quantity": 2
+        }
+      ],
+      "status": "cancelled",
+      "createdAt": "2026-04-29T13:55:00Z"
+    },
+    {
+      "id": "7",
+      "customerName": "Johnathan Wickham",
+      "items": [
+        {
+          "name": "Oil",
+          "price": 2000,
+          "quantity": 5
+        },
+        {
+          "name": "Fruits",
+          "price": 500,
+          "quantity": 10
+        }
+      ],
+      "status": "pending",
+      "createdAt": "2026-04-29T14:05:00Z"
+    },
+    {
+      "id": "8",
+      "customerName": "Neo Matrix",
+      "items": [
+        {
+          "name": "Eggs",
+          "price": 1000,
+          "quantity": 30
+        },
+        {
+          "name": "Oil",
+          "price": 2000,
+          "quantity": 5
+        }
+      ],
+      "status": "delivered",
+      "createdAt": "2026-04-29T14:25:00Z"
+    },
+    {
+      "id": "9",
+      "customerName": "Max Throne",
+      "items": [
+        {
+          "name": "Meat",
+          "price": 2000,
+          "quantity": 10
+        }
+      ],
+      "status": "processing",
+      "createdAt": "2026-04-29T14:55:00Z"
+    },
+    {
+      "id": "10",
+      "customerName": "Sir Mc_carthy",
+      "items": [
+        {
+          "name": "Water",
+          "price": 1000,
+          "quantity": 30
+        },
+        {
+          "name": "Fish",
+          "price": 2000,
+          "quantity": 5
+        }
+      ],
+      "status": "delivered",
+      "createdAt": "2026-04-29T15:25:00Z"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
