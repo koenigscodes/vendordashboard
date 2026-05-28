@@ -23,6 +23,8 @@ const OrdersList = () => {
   const [searchOrder, setSearchOrder] = useState("");
   const [sortBy, setSortBy] = useState("newest");
 
+
+
   if (isLoading && !orders) {
     return <div className="flex justify-center items-center">
       <p className="font-bold">Loading orders...</p>
@@ -56,6 +58,29 @@ const OrdersList = () => {
           new Date(a.createdAt) - new Date(b.createdAt)
         )
       
+      case 'highest': {
+        const totalA = a.items.reduce((sum, item) => {
+          return sum + item.price * item.quantity
+        }, 0)
+
+        const totalB = b.items.reduce((sum, item) => {
+          return sum + item.price * item.quantity
+        }, 0)
+
+        return totalB - totalA
+      }
+      
+      case 'lowest': {
+        const totalA = a.items.reduce((sum, item) => {
+          return sum + item.price * item.quantity
+        }, 0)
+
+        const totalB = b.items.reduce((sum, item) => {
+          return sum + item.price * item.quantity
+        }, 0)
+
+        return totalA- totalB
+      }
       default:
         return 0
     }
@@ -94,7 +119,7 @@ const OrdersList = () => {
 
   return (
     <section>
-      <div className=" w-full px-3 shadow-lg">
+      <div className=" w-full px-3 shadow-xl rounded-b-md">
         <div className="flex flex-col w-full"> 
           <div className="flex flex-wrap justify-between items-center">
             <input
@@ -113,8 +138,8 @@ const OrdersList = () => {
               >
                 <option value="newest">Newest</option>
                 <option value="oldest">Oldest</option>
-                <option value="oldest">Highest Price</option>
-                <option value="oldest">Lowest Price</option>
+                <option value="highest">Highest Price</option>
+                <option value="lowest">Lowest Price</option>
               </select>
             </div>
             
@@ -127,7 +152,7 @@ const OrdersList = () => {
           <div className="flex flex-row gap-2 text-xs sm:text-sm mb-2 mt-2 flex-wrap">
             <button 
               onClick={() => dispatch(setFilter("all"))}
-              className="border border-blue-400 text-blue-800 py-1 px-3 rounded-md cursor-pointer"
+              className="border border-black text-blue-800 py-1 px-3 rounded-md cursor-pointer"
             >
               All
             </button>
@@ -243,7 +268,16 @@ const OrdersList = () => {
                     {order.status}
                   </span>
                 </div>
-                <div className="text-blue-600 lg:text-[14px] border border-purple-200 p-1 h-fit rounded-lg">View</div>
+                <div className="cursor-pointer">
+                  <Link to={`/orders/${order.id}`} >
+                    <button 
+                      className="hidden sm:block text-[14px] text-blue-600 border border-blue-300 p-1 rounded-md cursor-pointer"
+                    >
+                      View
+                    </button>
+                    <ChevronRight className="sm:hidden w-5 border border-blue-300 p-1 rounded-md " color="blue" strokeWidth={2} />
+                  </Link>
+                </div>
               </div>
             ))}
           </div> 

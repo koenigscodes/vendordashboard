@@ -77,7 +77,7 @@ const OrderDetails = () => {
         </div>
       ))}
       
-      <div className="flex flex-col px-4 py-6 max-w-6xl mx-auto rounded">
+      <div className="flex flex-col px-4 py-6 max-w-6xl lg:max-w-7xl mx-auto rounded">
         <span 
           className="flex items-center font-xs text-sm cursor-pointer mb-4"
           onClick={() => navigate("/")}
