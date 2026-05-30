@@ -9,11 +9,13 @@ export const ordersApi = createApi({
   tagTypes: ['Orders'],
   endpoints: (builder) => ({
     getOrders: builder.query({
-      query: () => '/orders',
-      providesTags: (result) => 
-        result
+      query: (page = 1) => `/orders?_page=${page}&_per_page=5`,
+      providesTags: (result, error) => {
+        console.log(result)
+        console.log(`Error:`, error)
+        return result
           ? [
-              ...result.map(order => ({
+              ...result.data.map(order => ({
                 type: 'Orders',
                 id: String(order.id)
               })),
@@ -21,6 +23,7 @@ export const ordersApi = createApi({
               { type: 'Orders', id: 'LIST' }
             ]
           : [{ type: 'Orders', id: 'LIST' }]  
+      }    
     }),
     getOrderById: builder.query({
       query: (id) => `/orders/${id}`,
@@ -44,25 +47,25 @@ export const ordersApi = createApi({
             }
           )
         )
-        const patchOrderList = dispatch(
-          ordersApi.util.updateQueryData(
-            'getOrders', 
-            undefined,
-            (draft) => {
-              const order =  draft.find(
-                order => order.id === arg.id
-              )
-              if (order) {
-                order.status = arg.status
-              }
-            }
-          )
-        )
+        // const patchOrderList = dispatch(
+        //   ordersApi.util.updateQueryData(
+        //     'getOrders', 
+        //     undefined,
+        //     (draft) => {
+        //       const order =  draft.find(
+        //         order => order.id === arg.id
+        //       )
+        //       if (order) {
+        //         order.status = arg.status
+        //       }
+        //     }
+        //   )
+        // )
         try {
           await queryFulfilled
         } catch (error) {
           patchOrderDetails.undo()
-          patchOrderList.undo()
+          // patchOrderList.undo()
 
           console.log(error);
         }

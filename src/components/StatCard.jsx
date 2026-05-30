@@ -2,8 +2,10 @@ import { useGetOrdersQuery } from "../features/api/ordersApi";
 
 const StatCard = () => {
   const {
-    data: orders = []
+    data: response,
   } = useGetOrdersQuery();
+
+  const orders = response?.data || [];
 
   const totalOrders = orders.length;
   const pendingOrders = orders.filter(order => order.status === "pending").length;

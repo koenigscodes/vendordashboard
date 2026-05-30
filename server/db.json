@@ -23,7 +23,7 @@
           "quantity": 4
         }
       ],
-      "status": "pending",
+      "status": "delivered",
       "createdAt": "2026-04-29T11:10:00Z"
     },
     {
@@ -41,7 +41,7 @@
           "quantity": 3
         }
       ],
-      "status": "processing",
+      "status": "delivered",
       "createdAt": "2026-04-29T12:25:00Z"
     },
     {
@@ -54,7 +54,7 @@
           "quantity": 10
         }
       ],
-      "status": "cancelled",
+      "status": "delivered",
       "createdAt": "2026-04-29T12:30:00Z"
     },
     {
@@ -103,7 +103,7 @@
           "quantity": 10
         }
       ],
-      "status": "pending",
+      "status": "processing",
       "createdAt": "2026-04-29T14:05:00Z"
     },
     {
@@ -134,7 +134,7 @@
           "quantity": 10
         }
       ],
-      "status": "processing",
+      "status": "delivered",
       "createdAt": "2026-04-29T14:55:00Z"
     },
     {

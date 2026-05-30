@@ -9,12 +9,15 @@ import { useState } from "react";
 import { ChevronRight } from "lucide-react";
 
 const OrdersList = () => {
+  const [page, setPage] = useState(1)
   const {
-    data: orders = [],
+    data: response,
     isLoading,
     isError,
     error
-  } = useGetOrdersQuery();
+  } = useGetOrdersQuery(page);
+
+  const orders = response?.data || [];
 
   const filter = useSelector(state => state.orders.filter);
   
@@ -22,8 +25,6 @@ const OrdersList = () => {
 
   const [searchOrder, setSearchOrder] = useState("");
   const [sortBy, setSortBy] = useState("newest");
-
-
 
   if (isLoading && !orders) {
     return <div className="flex justify-center items-center">
@@ -151,7 +152,12 @@ const OrdersList = () => {
           
           <div className="flex flex-row gap-2 text-xs sm:text-sm mb-2 mt-2 flex-wrap">
             <button 
-              onClick={() => dispatch(setFilter("all"))}
+              onClick={() => {
+                  return (
+                    dispatch(setFilter("all")),
+                    setPage(1)
+                  )
+                }}
               className="border border-black text-blue-800 py-1 px-3 rounded-md cursor-pointer"
             >
               All
@@ -159,25 +165,45 @@ const OrdersList = () => {
             <div className="flex bg-gray-100 gap-4 items-center px-2.5 p-1 rounded-md">
               <button
                 className="cursor-pointer"
-                onClick={() => dispatch(setFilter("pending"))}
+                onClick={() => {
+                  return (
+                    dispatch(setFilter("pending")),
+                    setPage(1)
+                  )
+                }}
               >
                 Pending
               </button>
               <button
                 className="cursor-pointer"
-                onClick={() => dispatch(setFilter("processing"))}
+                onClick={() => {
+                  return (
+                    dispatch(setFilter("processing")),
+                    setPage(1)
+                  )
+                }}
               >
                 Processing
               </button>
               <button
                 className="cursor-pointer"
-                onClick={() => dispatch(setFilter("delivered"))}
+                onClick={() => {
+                  return (
+                    dispatch(setFilter("delivered")),
+                    setPage(1)
+                  )
+                }}
               >
                 Delivered
               </button>
               <button
                 className="sm:block cursor-pointer"
-                onClick={() => dispatch(setFilter("cancelled"))}
+                onClick={() => {
+                  return (
+                    dispatch(setFilter("cancelled")),
+                    setPage(1)
+                  )
+                }}
               >
                 Cancelled
               </button>
@@ -194,7 +220,7 @@ const OrdersList = () => {
           <div>Action</div>
         </div>
         
-        {
+        {sortedOrders.length > 0 ? (
           sortedOrders.map(order => (
             <div 
               key={order.id} 
@@ -237,51 +263,82 @@ const OrdersList = () => {
               </div>
             </div>
           ))
-        }
+        ) : (
+          <div className="flex justify-center items-center font-semibold py-10">
+            <p>Order not found</p>
+          </div>
+        )}
 
         {
           <div className="hidden md:block">
 
-            {sortedOrders.map(order => (
-              <div 
-                key={order.id} 
-                className="
-                  grid grid-cols-[1fr_1.5fr_2fr_1fr_1fr_auto] p-2.5 
-                  border-t border-gray-200 text-sm lg:text-[14px] items-center gap-3
-                "
-              >
-                <span className="font-semibold">
-                  #ORD-{order.id}
-                </span>
-                <span>{order.customerName}</span>
-                <span className="lg:text-[14px] min-w-36">
-                  {formatDateTime(order.createdAt)}
-                </span>
-                <span className="truncate">₦{orderTotal(order.items)}</span>
-                <div className="flex items-center">
-                  <span
-                    className={`
-                      py-1 px-2 truncate lg:text-[14px]  rounded-lg
-                      ${statusStyles[order.status]}
-                    `}
-                  >
-                    {order.status}
+            {sortedOrders.length > 0 ? (
+              sortedOrders.map(order => (
+                <div 
+                  key={order.id} 
+                  className="
+                    grid grid-cols-[1fr_1.5fr_2fr_1fr_1fr_auto] p-2.5 
+                    border-t border-gray-200 text-sm lg:text-[14px] items-center gap-3
+                  "
+                >
+                  <span className="font-semibold">
+                    #ORD-{order.id}
                   </span>
-                </div>
-                <div className="cursor-pointer">
-                  <Link to={`/orders/${order.id}`} >
-                    <button 
-                      className="hidden sm:block text-[14px] text-blue-600 border border-blue-300 p-1 rounded-md cursor-pointer"
+                  <span>{order.customerName}</span>
+                  <span className="lg:text-[14px] min-w-36">
+                    {formatDateTime(order.createdAt)}
+                  </span>
+                  <span className="truncate">₦{orderTotal(order.items)}</span>
+                  <div className="flex items-center">
+                    <span
+                      className={`
+                        py-1 px-2 truncate lg:text-[14px]  rounded-lg
+                        ${statusStyles[order.status]}
+                      `}
                     >
-                      View
-                    </button>
-                    <ChevronRight className="sm:hidden w-5 border border-blue-300 p-1 rounded-md " color="blue" strokeWidth={2} />
-                  </Link>
+                      {order.status}
+                    </span>
+                  </div>
+                  <div className="cursor-pointer">
+                    <Link to={`/orders/${order.id}`} >
+                      <button 
+                        className="hidden sm:block text-[14px] text-blue-600 border border-blue-300 p-1 rounded-md cursor-pointer"
+                      >
+                        View
+                      </button>
+                      <ChevronRight className="sm:hidden w-5 border border-blue-300 p-1 rounded-md " color="blue" strokeWidth={2} />
+                    </Link>
+                  </div>
                 </div>
+              ))  
+            ) : (
+              <div className="flex justify-center items-center font-semibold py-10">
+                <p>Order not found</p>
               </div>
-            ))}
+            )}
           </div> 
         }
+        <div className="flex justify-center items-center text-xs gap-2 mt-3">
+          <button
+            onClick={() => setPage(prev => prev - 1)}
+            disabled={!response?.prev}
+            className="border px-2 py-1 mb-2 rounded cursor-pointer"
+          >
+            Prev
+          </button>
+
+          <span className="mb-2">
+            Page {page}
+          </span>
+
+          <button
+            onClick={() => setPage(prev => prev + 1)}
+             disabled={!response?.next}
+            className="border px-2 py-1 mb-2 rounded cursor-pointer"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </section>
   )
