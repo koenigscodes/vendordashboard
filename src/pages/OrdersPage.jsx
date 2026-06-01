@@ -1,6 +1,6 @@
 import NavBar from "../components/NavBar"
 import SideBar from "../components/SideBar"
-import StatCard from "../components/StatCard"
+import StatCards from "../components/StatCards"
 
 import OrderItemsList from "../components/OrderItemsList"
 
@@ -11,7 +11,7 @@ const OrdersPage = () => {
       <SideBar />
       <div className="container p-4 max-w-full">
         <NavBar />
-        <StatCard />
+        <StatCards />
         <OrderItemsList />
       </div>
     </section>

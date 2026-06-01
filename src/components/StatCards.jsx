@@ -1,29 +1,53 @@
 import { useGetOrdersQuery } from "../features/api/ordersApi";
 
-const StatCard = () => {
+const StatCards = () => {
   const {
     data: response,
   } = useGetOrdersQuery();
 
   const orders = response?.data || [];
 
-  const totalOrders = orders.length;
-  const pendingOrders = orders.filter(order => order.status === "pending").length;
-  const deliveredOrders = orders.filter(order => order.status === "delivered").length;
+  const metrics = orders.reduce((acc, order) => {
+    const isDelivered = order.status === "delivered"
+
+      if (order.status === "pending") {
+        acc.pendingOrders++
+      }
+
+      if (isDelivered) {
+        acc.deliveredOrders++
+      }
+
+      acc.totalOrders++
+
+      const orderTotal = order.items.reduce((itemSum, item) => {
+        return itemSum + (item.price * item.quantity)
+      }, 0)
+
+      if (isDelivered) {
+        acc.deliveredRevenue += orderTotal
+      }
+
+      acc.grossRevenue += orderTotal
 
 
-  const totalRevenue = orders.reduce((sum, order) => {
+      
+      return acc
 
-    if (order.status !== 'delivered') {
-      return sum
-    }
+    }, {
+      totalOrders: 0,
+      pendingOrders: 0,
+      deliveredOrders:0,
+      deliveredRevenue:0,
+      grossRevenue: 0
+    })
 
-    const orderTotal = order.items.reduce((itemSum, item) => {
-      return itemSum + (item.price * item.quantity)
-    }, 0)
-
-    return sum + orderTotal
-  }, 0)
+    const {
+      pendingOrders,
+      deliveredOrders,
+      totalOrders,
+      deliveredRevenue,
+    } = metrics
 
   return (
     <div>
@@ -34,7 +58,7 @@ const StatCard = () => {
         </div>
         <div className="h-20 shadow-gray-300 text-sm shadow-md p-1 rounded-md">
           <p>Revenue</p>
-          <h3>₦{totalRevenue.toLocaleString()}</h3>
+          <h3>₦{deliveredRevenue.toLocaleString()}</h3>
         </div>
         <div className="h-20 shadow-gray-300 text-sm shadow-md p-1 rounded-md">
           <p>Pending</p>
@@ -49,4 +73,4 @@ const StatCard = () => {
   )
 }
 
-export default StatCard;
+export default StatCards;

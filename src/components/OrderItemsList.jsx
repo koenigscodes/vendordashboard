@@ -26,7 +26,7 @@ const OrdersList = () => {
   const [searchOrder, setSearchOrder] = useState("");
   const [sortBy, setSortBy] = useState("newest");
 
-  if (isLoading && !orders) {
+  if (isLoading && !response) {
     return <div className="flex justify-center items-center">
       <p className="font-bold">Loading orders...</p>
     </div> 

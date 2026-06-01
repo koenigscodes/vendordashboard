@@ -41,7 +41,7 @@
           "quantity": 3
         }
       ],
-      "status": "delivered",
+      "status": "pending",
       "createdAt": "2026-04-29T12:25:00Z"
     },
     {
@@ -54,7 +54,7 @@
           "quantity": 10
         }
       ],
-      "status": "delivered",
+      "status": "cancelled",
       "createdAt": "2026-04-29T12:30:00Z"
     },
     {
