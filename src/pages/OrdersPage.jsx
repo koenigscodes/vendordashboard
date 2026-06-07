@@ -3,6 +3,7 @@ import SideBar from "../components/SideBar"
 import StatCards from "../components/StatCards"
 
 import OrderItemsList from "../components/OrderItemsList"
+import Analytics from "../components/Analytics"
 
 
 const OrdersPage = () => {
@@ -13,6 +14,7 @@ const OrdersPage = () => {
         <NavBar />
         <StatCards />
         <OrderItemsList />
+        <Analytics />
       </div>
     </section>
   )

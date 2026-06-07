@@ -1,5 +1,7 @@
 import { useGetOrdersQuery } from "../features/api/ordersApi";
 
+import { calculateMetrics } from "../utils/MetricsCalc";
+
 const StatCards = () => {
   const {
     data: response,
@@ -7,47 +9,12 @@ const StatCards = () => {
 
   const orders = response?.data || [];
 
-  const metrics = orders.reduce((acc, order) => {
-    const isDelivered = order.status === "delivered"
-
-      if (order.status === "pending") {
-        acc.pendingOrders++
-      }
-
-      if (isDelivered) {
-        acc.deliveredOrders++
-      }
-
-      acc.totalOrders++
-
-      const orderTotal = order.items.reduce((itemSum, item) => {
-        return itemSum + (item.price * item.quantity)
-      }, 0)
-
-      if (isDelivered) {
-        acc.deliveredRevenue += orderTotal
-      }
-
-      acc.grossRevenue += orderTotal
-
-
-      
-      return acc
-
-    }, {
-      totalOrders: 0,
-      pendingOrders: 0,
-      deliveredOrders:0,
-      deliveredRevenue:0,
-      grossRevenue: 0
-    })
-
-    const {
-      pendingOrders,
-      deliveredOrders,
-      totalOrders,
-      deliveredRevenue,
-    } = metrics
+  const {
+    pendingOrders,
+    deliveredOrders,
+    totalOrders,
+    deliveredRevenue,
+  } = calculateMetrics(orders);
 
   return (
     <div>

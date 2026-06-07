@@ -135,7 +135,7 @@ const OrdersList = () => {
               <select 
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="border h-8 p-1 m-2 text-xs rounded-full"
+                className="border h-8 p-0.5 m-1 text-xs rounded-full"
               >
                 <option value="newest">Newest</option>
                 <option value="oldest">Oldest</option>
@@ -326,11 +326,9 @@ const OrdersList = () => {
           >
             Prev
           </button>
-
           <span className="mb-2">
             Page {page}
           </span>
-
           <button
             onClick={() => setPage(prev => prev + 1)}
              disabled={!response?.next}

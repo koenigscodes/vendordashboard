@@ -9,10 +9,8 @@ export const ordersApi = createApi({
   tagTypes: ['Orders'],
   endpoints: (builder) => ({
     getOrders: builder.query({
-      query: (page = 1) => `/orders?_page=${page}&_per_page=5`,
-      providesTags: (result, error) => {
-        console.log(result)
-        console.log(`Error:`, error)
+      query: (page = 1) => `/orders?_page=${page}&_per_page=15`,
+      providesTags: (result,) => {
         return result
           ? [
               ...result.data.map(order => ({
